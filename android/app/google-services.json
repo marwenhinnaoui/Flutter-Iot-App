@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "432232439708",
+    "project_id": "fluttersempfe",
+    "storage_bucket": "fluttersempfe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:432232439708:android:fc1ce8f0251f1d7e77f259",
+        "android_client_info": {
+          "package_name": "com.sem3.projetsem3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdY5jg5S_8j-ZniXcQFIbwvWiCa-KzQGo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
