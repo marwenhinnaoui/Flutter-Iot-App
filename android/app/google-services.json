@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "432232439708",
-    "project_id": "fluttersempfe",
-    "storage_bucket": "fluttersempfe.appspot.com"
+    "project_number": "282229285407",
+    "project_id": "smart-house-sem3",
+    "storage_bucket": "smart-house-sem3.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:432232439708:android:fc1ce8f0251f1d7e77f259",
+        "mobilesdk_app_id": "1:282229285407:android:abc05161274d54a3cc2b2a",
         "android_client_info": {
-          "package_name": "com.sem3.projetsem3"
+          "package_name": "iset.sem.smarthouse"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDdY5jg5S_8j-ZniXcQFIbwvWiCa-KzQGo"
+          "current_key": "AIzaSyCl9UgQWlg5U6IHiaWzN5wvIXFytqDlzNE"
         }
       ],
       "services": {

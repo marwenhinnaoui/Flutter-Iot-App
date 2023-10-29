@@ -1,10 +1,10 @@
-import 'dart:js';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:projet_sem3_flutter/screens/auth/login_screen.dart';
 
+import '../widgets/snackbar.dart';
 import 'auth/auth.dart';
 
 
@@ -47,15 +47,7 @@ class _HomeState extends State<Home> {
           } on FirebaseAuthException catch(e){
             SignoutStatus=e.code;
           }
-          final snackBar = SnackBar(
-            content: Text(SignoutStatus),
-            action: SnackBarAction(
-              label: 'Hide',
-              onPressed: () {
-                // Some code to undo the change.
-              },
-            ),
-          );
+          final snackBar = CustomSnackBar.showErrorSnackBar('Sign out success');
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
 

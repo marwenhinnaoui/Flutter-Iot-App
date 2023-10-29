@@ -1,5 +1,3 @@
-import 'dart:html';
-import 'dart:js';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projet_sem3_flutter/screens/auth/register_screen.dart';

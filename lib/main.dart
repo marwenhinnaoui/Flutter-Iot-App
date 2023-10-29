@@ -1,8 +1,6 @@
-import 'dart:js';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:projet_sem3_flutter/screens/auth/auth_route.dart';
 import 'package:projet_sem3_flutter/screens/auth/login_screen.dart';
 import 'package:projet_sem3_flutter/screens/auth/register_screen.dart';
@@ -17,24 +15,23 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: FirebaseOptions(
-      apiKey: "AIzaSyDdY5jg5S_8j-ZniXcQFIbwvWiCa-KzQGo",
-      appId: "1:432232439708:android:fc1ce8f0251f1d7e77f259",
-      messagingSenderId: "432232439708",
-      projectId: "fluttersempfe",
+      apiKey: "AIzaSyCrWFcldy2lOaZa1dk-Y4Qy-E9cJCNFCEU",
+      appId: "1:282229285407:android:abc05161274d54a3cc2b2a",
+      messagingSenderId: "282229285407",
+      projectId: "smart-house-sem3",
     ),
   );
-  final ValueNotifier<ThemeMode> _notifier = ValueNotifier(ThemeMode.light);
+
 
   runApp(
-      ValueListenableBuilder<ThemeMode>(
-      valueListenable: _notifier,
-      builder: (_, mode, __) {
-        return
+
         MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: ThemeData.light(),
-          darkTheme: ThemeData.dark(),
-          themeMode: mode,
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Color(0xffFE725E)),
+            useMaterial3: true
+          ),
+
           initialRoute: 'auth',
           routes: <String, WidgetBuilder>{
             'auth': (context) => authRoute(),
@@ -42,9 +39,11 @@ void main() async {
             'register': (context) => Register(),
             'home': (context) => Home(),
           },
-        );
-      }
+
   )
   );
 }
+
+
+
 
