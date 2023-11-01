@@ -1,78 +1,56 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:projet_sem3_flutter/screens/auth/login_screen.dart';
 
 import '../widgets/snackbar.dart';
 import 'auth/auth.dart';
 
-
-
-class Home extends StatefulWidget {
-  Home({super.key});
-
+class HomeScreen extends StatefulWidget{
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<Home> {
-  final User? user = Auth().currentUser;
+class _HomeScreenState extends State<HomeScreen> {
 
-
-
-  Widget userEmail(){
-    return (
-      Text(
-        'Email ${user?.email}'
-      )
-    );
-  }
-
-  Widget signOutButton(context){
-    return (
-      IconButton(
-        onPressed: () async{
-          String? SignoutStatus = '';
-
-
-
-          try{
-
-            await Auth().fireAuth.signOut();
-            print('Signout pressed');
-            SignoutStatus = 'Signout Success';
-            Navigator.of(context).pushNamedAndRemoveUntil('login' , (Route <dynamic> route ) => false);
-
-          } on FirebaseAuthException catch(e){
-            SignoutStatus=e.code;
-          }
-          final snackBar = CustomSnackBar.showErrorSnackBar('Sign out success');
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-
-        },
-        icon: Icon(Icons.logout),
-      )
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return(
-       Scaffold(
-        appBar: AppBar(
-          title: Text(
-            style: TextStyle(
-              color: Colors.white,
-
-            ),
-            'Home page'
-          ),
+      Scaffold(
+        appBar:AppBar(
+          // leading: SizedBox(
+          //   width: 100,
+          //   child: Text(
+          //     'Welcome back !'
+          //   ),
+          // ),
           actions: [
-            signOutButton(context)
-          ],
+            IconButton(
+              onPressed: () async{
+                String? SignoutStatus = '';
+                String? color = 'success';
+                try{
 
+                  await Auth().fireAuth.signOut();
+                  print('Signout pressed');
+                  SignoutStatus = 'Signout Success';
+                  Navigator.of(context).pushNamedAndRemoveUntil('login' , (Route <dynamic> route ) => false);
+
+                } on FirebaseAuthException catch(e){
+                  SignoutStatus=e.code;
+                  color ='danger';
+                }
+                final snackBar = CustomSnackBar.showErrorSnackBar(SignoutStatus, color);
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+
+              },
+              icon: Icon(Icons.logout_sharp),
+            )
+          ],
+        ) ,
+        body: Text(
+          'User'
         ),
       )
     );

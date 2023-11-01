@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projet_sem3_flutter/screens/auth/auth.dart';
@@ -16,6 +17,24 @@ class Login extends StatefulWidget {
   @override
   State<Login> createState() => _LoginState();
 }
+Future<void> getUserData(Map<String, dynamic> userData) async{
+
+
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+// Get the user's document
+  DocumentSnapshot userDoc = await users.doc(Auth().currentUser?.uid).get();
+
+// Access data from the document
+  if (userDoc.exists) {
+    userData.addAll(userDoc.data() as Map<String, dynamic>);
+
+    print('User Data: $userData');
+  } else {
+    print('User document does not exist');
+
+  }
+}
 
 class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey();
@@ -25,11 +44,13 @@ class _LoginState extends State<Login> {
   final TextEditingController _controllerPassword = TextEditingController();
   var Firebase_errors =  "";
   bool _obscurePassword = true;
+  Map<String, dynamic> userData ={};
 
 
 
   @override
   Widget build(BuildContext context) {
+
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -46,12 +67,12 @@ class _LoginState extends State<Login> {
               children: [
 
                 Image.asset('assets/img/918c27_5cb54df7343246c3898d3a49712ce58c~mv2.gif', width: 315,),
-                const SizedBox(height: 30),
+                const SizedBox(height: 40),
                 Text(
                   "Login to your account",
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                const SizedBox(height: 60),
+                const SizedBox(height: 40),
                 TextFormField(
 
                   controller: _controllerEmail,
@@ -127,7 +148,9 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       onPressed: () async{
-                        String? LoginStatus = '';
+
+                        String? color = 'success';
+                        String? LoginStatus = 'Sign in success';
                         if (_formKey.currentState?.validate() ?? false) {
 
                           print('Login Screen');
@@ -137,24 +160,30 @@ class _LoginState extends State<Login> {
 
                           //Firebase Validation
                           try{
-                            var userData = await Auth().fireAuth.signInWithEmailAndPassword(
+                            var userDataAuth = await Auth().fireAuth.signInWithEmailAndPassword(
                                 email: _controllerEmail.text,
                                 password: _controllerPassword.text
                             );
-                            if(userData.user != null ){
-                              print('Login Success');
-                              LoginStatus= 'Login Success';
-                              Navigator.of(context).pushNamedAndRemoveUntil('home' , (Route <dynamic> route ) => false);
+                            final user = userDataAuth.user;
+                            if(user != null ){
+                              await getUserData(userData);
+                              print('--------${userData['']}');
+                              if(userData['isAdmin  ']== false){
+                                Navigator.of(context).pushNamedAndRemoveUntil('bottombar' , (Route <dynamic> route ) => false);
+
+                              }else{
+                                Navigator.of(context).pushNamedAndRemoveUntil('home_admin' , (Route <dynamic> route ) => false);
+
+                              }
 
                             }
                           }on FirebaseAuthException catch(e){
                             LoginStatus = e.code;
-
-
-
+                            color = 'danger';
 
                           }
-                          final snackBar = CustomSnackBar.showErrorSnackBar('Sign in success');
+
+                          final snackBar = CustomSnackBar.showErrorSnackBar(LoginStatus, color);
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
 

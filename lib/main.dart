@@ -4,7 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:projet_sem3_flutter/screens/auth/auth_route.dart';
 import 'package:projet_sem3_flutter/screens/auth/login_screen.dart';
 import 'package:projet_sem3_flutter/screens/auth/register_screen.dart';
+import 'package:projet_sem3_flutter/screens/bottom_bar.dart';
 import 'package:projet_sem3_flutter/screens/home_screen.dart';
+
+import 'package:projet_sem3_flutter/screens/profile_screen.dart';
+
+import 'admin/screens/home_admin_screen.dart';
 
 
 
@@ -37,7 +42,10 @@ void main() async {
             'auth': (context) => authRoute(),
             'login': (context) => Login(),
             'register': (context) => Register(),
-            'home': (context) => Home(),
+            'bottombar': (context) => BottomBar(),
+            'profile': (context) => ProfileScreen(),
+            'home': (context) => HomeScreen(),
+            'home_admin': (context) => HomeAdminScreen(),
           },
 
   )

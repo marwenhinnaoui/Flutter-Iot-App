@@ -3,7 +3,7 @@ import 'package:projet_sem3_flutter/screens/auth/auth.dart';
 import 'package:projet_sem3_flutter/screens/auth/login_screen.dart';
 
 
-import '../home_screen.dart';
+import '../bottom_bar.dart';
 
 
 class authRoute extends StatefulWidget{
@@ -18,7 +18,7 @@ class _authRouteState extends State<authRoute>{
       return StreamBuilder(stream: Auth().authStateHandle, builder: (context, snpashot){
         if(snpashot.hasData){
           print('Has data');
-          return Home();
+          return BottomBar();
         }else
           print('No data found');
           return Login();
