@@ -23,7 +23,6 @@ class _HomeState extends State<BottomBar> {
   late List userDataList;
   List<Widget> tabItems = [
     HomeScreen(),
-    Text("2"),
     ProfileScreen(),
   ];
   int _selectedIndex = 0;
@@ -45,6 +44,7 @@ class _HomeState extends State<BottomBar> {
 
     return(
        Scaffold(
+
          bottomNavigationBar:
          FlashyTabBar(
 
@@ -58,16 +58,13 @@ class _HomeState extends State<BottomBar> {
            items: [
              FlashyTabBarItem(
 
-               icon: Icon(Icons.event),
-               title: Text('Events'),
+               icon: Icon(Icons.home),
+               title: Text('Home'),
              ),
 
+
              FlashyTabBarItem(
-               icon: Icon(Icons.search),
-               title: Text('Search'),
-             ),
-             FlashyTabBarItem(
-               icon: Icon(Icons.highlight),
+               icon: Icon(Icons.account_circle_rounded),
                title: Text('Profile'),
              ),
 

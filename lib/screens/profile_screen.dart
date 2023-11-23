@@ -39,10 +39,15 @@ class _ProfileScreenState extends State<ProfileScreen>  {
 
     return(
     Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Profile'
+        ),
+      ),
       body:
       Container(
         child: Text(
-            'dffd'
+            'Profile'
         ),
       ),
     )

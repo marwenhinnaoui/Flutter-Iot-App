@@ -41,7 +41,7 @@ void main() async {
           routes: <String, WidgetBuilder>{
             'auth': (context) => authRoute(),
             'login': (context) => Login(),
-            'register': (context) => Register(),
+
             'bottombar': (context) => BottomBar(),
             'profile': (context) => ProfileScreen(),
             'home': (context) => HomeScreen(),
