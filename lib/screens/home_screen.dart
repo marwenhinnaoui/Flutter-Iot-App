@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:projet_sem3_flutter/screens/gaz_screen.dart';
 import 'package:projet_sem3_flutter/screens/profile_screen.dart';
+import 'package:projet_sem3_flutter/screens/temp_screen.dart';
 
 
 import '../ui/colors.dart';
@@ -86,6 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
               width: double.infinity,
               padding:  EdgeInsets.all(5),
               child: Card(
+                surfaceTintColor:Color(0xFFFFFFFF),
                 color: Colors.white,
                 child: InkWell(
 
@@ -156,7 +158,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: Text('Home'),
                 ),
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => TempScreen()));
+
+                  },
                   leading: Icon(Icons.navigate_next_sharp),
                   title: Text('Temperature'),
                 ),

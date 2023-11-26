@@ -33,6 +33,7 @@ void main() async {
         MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
+              scaffoldBackgroundColor: const Color(0xFFFFFFFF),
             colorScheme: ColorScheme.fromSeed(seedColor: Color(0xffFE725E)),
             useMaterial3: true
           ),

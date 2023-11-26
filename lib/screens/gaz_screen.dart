@@ -19,8 +19,8 @@ class _GazScreenState extends State<GazScreen> {
 
 
 
-
-
+  bool fan = false;
+  String fanText= 'Off';
   List<OrdinalData> ordinalList = [
 
   ];
@@ -64,148 +64,190 @@ class _GazScreenState extends State<GazScreen> {
 
     return Scaffold(
       appBar:AppBar(
+        leading: new IconButton(onPressed: () => {Navigator.of(context).pop()}, icon: Icon(Icons.keyboard_arrow_left),),
         title: Text(
-          'Gaz'
+          'Gas',
+          style: TextStyle(
+            fontSize: 21,
+          ),
         ),
       ) ,
-      body: Container(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-          Container(
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+            Container(
 
-          width: double.infinity,
-          padding:  EdgeInsets.all(5),
-          child: Card(
-            color: Colors.white,
-            child: Padding(
-              padding:  EdgeInsets.all(8.0),
+            width: double.infinity,
+            padding:  EdgeInsets.all(5),
+            child: Card(
+              surfaceTintColor:Color(0xFFFFFFFF),
+              color: Colors.white,
+              child: Padding(
+                padding:  EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Center(
+                        child: Container(
+
+                          height: 250,
+                          child: syncfusion.SfRadialGauge(
+
+
+                            axes: <syncfusion.RadialAxis>[
+                              syncfusion.RadialAxis(
+                                minimum: 0,
+                                maximum: 100,
+                                ranges: <syncfusion.GaugeRange>[
+                                  syncfusion.GaugeRange(startValue: 0, endValue: 33, color: Colors.green),
+                                  syncfusion.GaugeRange(startValue: 33, endValue: 66, color: Colors.orange),
+                                  syncfusion.GaugeRange(startValue: 66, endValue: 100, color: Colors.red),
+                                ],
+                                pointers: <syncfusion.GaugePointer>[
+                                  syncfusion.NeedlePointer(value: valueGaz,),
+                                ],
+                                annotations: <syncfusion.GaugeAnnotation>[
+                                  syncfusion.GaugeAnnotation(
+                                    widget: Container(
+                                      child: Text('${valueGaz}%', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                                    ),
+                                    angle: 85,
+                                    positionFactor: 0.5,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                    ),
+                    Text('Gas Level Realtime', style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold),),
+
+
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+                height: 15,
+              ),
+
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Card(
+                  surfaceTintColor:Color(0xFFFFFFFF),
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Switch(
+                      // This bool value toggles the switch.
+                      value: fan,
+                      thumbColor: const MaterialStatePropertyAll<Color>(Colors.black),
+                      onChanged: (bool value) {
+                        setState(() {
+                          fan = value;
+                         if(fan){
+                           fanText = 'On';
+                         } else{
+                         fanText='Off';
+                         }
+                        });
+                      },
+                    ),
+
+                        Text('Fan Button Controller: ${fanText}', style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold),),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Card(
+                  surfaceTintColor:Color(0xFFFFFFFF),
+                color:  Color(0xFFFFFFFF),
+              child: Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  Center(
-                      child: Container(
+                  StreamBuilder(
+                    stream: FirebaseFirestore.instance.collection('data').snapshots(),
+                    builder: (context, snapshot) {
 
-                        height: 250,
-                        child: syncfusion.SfRadialGauge(
+                      if (!snapshot.hasData || snapshot.data == null) {
+                        return Text('No data available');
+                      }
 
-                          enableLoadingAnimation:true,
-                          axes: <syncfusion.RadialAxis>[
-                            syncfusion.RadialAxis(
-                              minimum: 0,
-                              maximum: 100,
-                              ranges: <syncfusion.GaugeRange>[
-                                syncfusion.GaugeRange(startValue: 0, endValue: 33, color: Colors.green),
-                                syncfusion.GaugeRange(startValue: 33, endValue: 66, color: Colors.orange),
-                                syncfusion.GaugeRange(startValue: 66, endValue: 100, color: Colors.red),
-                              ],
-                              pointers: <syncfusion.GaugePointer>[
-                                syncfusion.NeedlePointer(value: valueGaz,),
-                              ],
-                              annotations: <syncfusion.GaugeAnnotation>[
-                                syncfusion.GaugeAnnotation(
-                                  widget: Container(
-                                    child: Text('${valueGaz}%', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-                                  ),
-                                  angle: 85,
-                                  positionFactor: 0.5,
-                                ),
-                              ],
-                            ),
-                          ],
+                      var documents = snapshot.data!.docs;
+
+
+                      for (var document in documents) {
+                        var data = document.data() as Map<String, dynamic>;
+                        // print('----------------------${data}');
+
+
+                        ordinalList.add(OrdinalData(domain: '${data['Gaz']}', measure:data['Gaz']) );
+
+
+
+
+                      }
+
+                      return Container(
+                        child: AspectRatio(
+                          aspectRatio: 16 / 9,
+                          child: DChartBarO(
+                            fillColor: (group, ordinalData, index) {
+                              if (ordinalData.measure >= _currentSliderValue) return cutomColor().dangerColorText;
+                              return cutomColor().successColorBg;
+                            },
+
+                            groupList: ordinalGroup,
+                          ),
                         ),
-                      )
+                      );
+                    },
                   ),
-                  Text('Gas Level Realtime', style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold),),
-
+                  Text('Gas Chart', style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold),),
 
                 ],
               ),
             ),
           ),
-        ),
-        SizedBox(
-              height: 15,
-            ),
-            Card(
-              color: Colors.white,
-            child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('data').snapshots(),
-                  builder: (context, snapshot) {
 
-                    if (!snapshot.hasData || snapshot.data == null) {
-                      return Text('No data available');
-                    }
-
-                    var documents = snapshot.data!.docs;
-
-
-                    for (var document in documents) {
-                      var data = document.data() as Map<String, dynamic>;
-                      // print('----------------------${data}');
-
-
-                      ordinalList.add(OrdinalData(domain: '${data['Gaz']}', measure:data['Gaz']) );
-
-
-
-
-                    }
-
-                    return Container(
-                      child: AspectRatio(
-                        aspectRatio: 16 / 9,
-                        child: DChartBarO(
-                          fillColor: (group, ordinalData, index) {
-                            if (ordinalData.measure >= _currentSliderValue) return cutomColor().dangerColorText;
-                            return Colors.black54;
-                          },
-
-                          groupList: ordinalGroup,
-                        ),
+              Card(
+                surfaceTintColor:Color(0xFFFFFFFF),
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Slider(
+                        value: _currentSliderValue.toDouble(),
+                        max: 100,
+                        label: _currentSliderValue.round().toString(),
+                        onChanged: (double value) {
+                          setState(() {
+                            _currentSliderValue = value.toInt();
+                            sliderController.text = _currentSliderValue.toString();
+                            print(_currentSliderValue);
+                          });
+                        },
                       ),
-                    );
-                  },
-                ),
-                Text('Gas Chart', style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold),),
-
-              ],
-            ),
-          ),
-        ),
-
-            Card(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Slider(
-                      value: _currentSliderValue.toDouble(),
-                      max: 100,
-                      label: _currentSliderValue.round().toString(),
-                      onChanged: (double value) {
-                        setState(() {
-                          _currentSliderValue = value.toInt();
-                          sliderController.text = _currentSliderValue.toString();
-                          print(_currentSliderValue);
-                        });
-                      },
-                    ),
-                    Text('Chose chart max value: ${_currentSliderValue}', style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold),),
-                  ],
+                      Text('Chose chart max value: ${_currentSliderValue}', style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold),),
+                    ],
+                  ),
                 ),
               ),
-            ),
 
 
 
 
 
-          ],
+
+            ],
+          ),
         ),
       ),
     );
