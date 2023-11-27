@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "282229285407",
-    "project_id": "smart-house-sem3",
-    "storage_bucket": "smart-house-sem3.appspot.com"
+    "project_number": "239139751033",
+    "project_id": "semiot-d539e",
+    "storage_bucket": "semiot-d539e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:282229285407:android:abc05161274d54a3cc2b2a",
+        "mobilesdk_app_id": "1:239139751033:android:cfa97e1720569caa37c0a8",
         "android_client_info": {
-          "package_name": "iset.sem.smarthouse"
+          "package_name": "com.sem.iotproject"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCl9UgQWlg5U6IHiaWzN5wvIXFytqDlzNE"
+          "current_key": "AIzaSyB2PVR8c6IfmBRLVDs6lEDBv_Pem77RBqI"
         }
       ],
       "services": {

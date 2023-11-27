@@ -56,6 +56,16 @@ class _TempScreenState extends State<TempScreen> {
       });
 
     });
+
+
+    _databaseReference.child('sliderValue').onValue.listen((event) {
+      final data = event.snapshot.value as int;
+
+      setState(() {
+        _currentSliderValue = data;
+        sliderController.text = _currentSliderValue.toString();
+      });
+    });
   }
 
 
@@ -153,14 +163,13 @@ class _TempScreenState extends State<TempScreen> {
 
                           for (var document in documents) {
                             var data = document.data() as Map<String, dynamic>;
-                            print('----------------------${data['Temp']}');
 
+                            // Check if 'Gaz' is not null before accessing it
+                            if (data['Temp'] != null) {
+                              print('----------------------${data['Temp']}');
 
-                            ordinalList.add(OrdinalData(domain: '${data['Temp']}', measure:data['Temp']) );
-
-
-
-
+                              ordinalList.add(OrdinalData(domain: '${data['Temp']}', measure: data['Temp']));
+                            }
                           }
 
                           return Container(
@@ -201,6 +210,8 @@ class _TempScreenState extends State<TempScreen> {
                             _currentSliderValue = value.toInt();
                             sliderController.text = _currentSliderValue.toString();
                             print(_currentSliderValue);
+                            _databaseReference.child('sliderValue').set(
+                                _currentSliderValue);
                           });
                         },
                       ),

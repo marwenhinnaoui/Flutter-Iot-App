@@ -181,17 +181,15 @@ class _GazScreenState extends State<GazScreen> {
 
                       var documents = snapshot.data!.docs;
 
-
                       for (var document in documents) {
                         var data = document.data() as Map<String, dynamic>;
-                        // print('----------------------${data}');
 
+                        // Check if 'Gaz' is not null before accessing it
+                        if (data['Gaz'] != null) {
+                          print('----------------------${data['Gaz']}');
 
-                        ordinalList.add(OrdinalData(domain: '${data['Gaz']}', measure:data['Gaz']) );
-
-
-
-
+                          ordinalList.add(OrdinalData(domain: '${data['Gaz']}', measure: data['Gaz']));
+                        }
                       }
 
                       return Container(

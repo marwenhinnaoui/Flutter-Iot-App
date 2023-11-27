@@ -83,7 +83,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
       String full_name,
       bool isValid,
       String phone,
-      String createDate,
+
 
       ) async{
     try{
@@ -94,7 +94,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
         'fullname':full_name,
         'admin':isValid,
         'phone':phone,
-        'createDate':createDate,
+
       });
     }on FirebaseException catch(e){
       print('Store --------------- ${e.message}');
@@ -304,7 +304,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
 
                 if(RegisterStatus =='Register success'){
                   print('${ _controllerName.text.toString().trim()} ++++++++++++++++++ ${_controllerEmail.text.toString().trim()}');
-                  await addUserData(_controllerEmail.text.toString().trim(), _controllerName.text.toString().trim(), false, _phoneController.text.toString().trim(), date.toString());
+                  await addUserData(_controllerEmail.text.toString().trim(), _controllerName.text.toString().trim(), false, _phoneController.text.toString().trim());
                   Navigator.pop(context, 'Add');
                   Mailer().sendMail(to: _controllerEmail.text.toString().trim(), fullName: _controllerName.text.toString().trim(), password: _controllerPassword.text);
 

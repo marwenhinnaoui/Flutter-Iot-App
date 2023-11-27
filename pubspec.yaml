@@ -49,6 +49,8 @@ dependencies:
   syncfusion_flutter_gauges: ^23.1.44
   flutter_advanced_drawer: ^1.3.5
   d_chart: ^2.6.3
+  qweather_icons: ^1.6.0
+  iconify_flutter: ^0.0.5
 
 dev_dependencies:
   flutter_test:

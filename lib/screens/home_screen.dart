@@ -1,15 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:iconify_flutter/icons/wi.dart';
 import 'package:projet_sem3_flutter/screens/gaz_screen.dart';
 import 'package:projet_sem3_flutter/screens/profile_screen.dart';
 import 'package:projet_sem3_flutter/screens/temp_screen.dart';
-
-
-import '../ui/colors.dart';
+import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:colorful_iconify_flutter/icons/emojione.dart';
 import '../widgets/snackbar.dart';
 import 'auth/auth.dart';
 
@@ -21,14 +22,44 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-
-
+  double valueGaz=0.0;
+  double valueTmp=0.0;
+  final DatabaseReference _databaseReference =
+  FirebaseDatabase.instance.ref();
   final _advancedDrawerController = AdvancedDrawerController();
   void _handleMenuButtonPressed() {
     // NOTICE: Manage Advanced Drawer state through the Controller.
     // _advancedDrawerController.value = AdvancedDrawerValue.visible();
     _advancedDrawerController.showDrawer();
   }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _databaseReference.child('tmp').onValue.listen((event) {
+      final data = event.snapshot.value as double;
+
+      setState(() {
+        valueTmp = data;
+      });
+
+    });
+
+    _databaseReference.child('gaz').onValue.listen((event) {
+      final data = event.snapshot.value as double;
+
+      setState(() {
+        valueGaz = data;
+      });
+
+    });
+
+
+
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -92,16 +123,91 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: InkWell(
 
                   borderRadius: BorderRadius.circular(10),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => TempScreen()));
+
+                  },
                   child: Padding(
-                    padding:  EdgeInsets.all(8.0),
+                    padding:  EdgeInsets.all(10.0),
                     child: Column(
                       children: [
-                        Center(
-                          child: Text(
-                              'Slide'
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Iconify(Wi.day_windy, size: 30,),
+                                Text(
+                                    '  Temperature',
+                                  style: TextStyle(
+                                    fontSize: 17
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              '${valueTmp}°C',
+                              style: TextStyle(
+                                  fontSize: 17
+                              ),
+                            ),
+                          ],
                         ),
+
+
+
+
+
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+
+              width: double.infinity,
+              padding:  EdgeInsets.all(5),
+              child: Card(
+                surfaceTintColor:Color(0xFFFFFFFF),
+                color: Colors.white,
+                child: InkWell(
+
+                  borderRadius: BorderRadius.circular(10),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => GazScreen()));
+
+                  },
+                  child: Padding(
+                    padding:  EdgeInsets.all(10.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Iconify(Wi.strong_wind, size: 30,),
+                                Text(
+                                    '  Gas',
+                                  style: TextStyle(
+                                    fontSize: 17
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              '${valueGaz}°C',
+                              style: TextStyle(
+                                  fontSize: 17
+                              ),
+                            ),
+                          ],
+                        ),
+
+
+
+
 
                       ],
                     ),
@@ -162,12 +268,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => TempScreen()));
 
                   },
-                  leading: Icon(Icons.navigate_next_sharp),
+                  leading: Iconify(Wi.day_windy, color: Colors.white,),
                   title: Text('Temperature'),
                 ),
                 ListTile(
                   onTap: () {},
-                  leading: Icon(Icons.navigate_next_sharp),
+                  leading: Iconify(Wi.humidity, color: Colors.white,),
                   title: Text('Humidity'),
                 ),
                 ListTile(
@@ -176,7 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => GazScreen()));
 
                   },
-                  leading: Icon(Icons.navigate_next_sharp),
+                  leading: Iconify(Wi.strong_wind, color: Colors.white,),
                   title: Text('Gaz'),
                 ),
                 ListTile(

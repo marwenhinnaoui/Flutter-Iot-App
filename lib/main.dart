@@ -20,10 +20,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: FirebaseOptions(
-      apiKey: "AIzaSyCrWFcldy2lOaZa1dk-Y4Qy-E9cJCNFCEU",
-      appId: "1:282229285407:android:abc05161274d54a3cc2b2a",
-      messagingSenderId: "282229285407",
-      projectId: "smart-house-sem3",
+      apiKey: "AIzaSyB2PVR8c6IfmBRLVDs6lEDBv_Pem77RBqI",
+      appId: "1:239139751033:android:cfa97e1720569caa37c0a8",
+      messagingSenderId: "239139751033",
+      projectId: "semiot-d539e",
     ),
   );
 
