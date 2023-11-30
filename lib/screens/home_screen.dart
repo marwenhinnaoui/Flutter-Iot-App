@@ -1,7 +1,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-
+import 'package:flutter_neon/flutter_neon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
@@ -11,9 +11,10 @@ import 'package:projet_sem3_flutter/screens/profile_screen.dart';
 import 'package:projet_sem3_flutter/screens/temp_screen.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:colorful_iconify_flutter/icons/emojione.dart';
+import 'package:projet_sem3_flutter/ui/colors.dart';
 import '../widgets/snackbar.dart';
 import 'auth/auth.dart';
-
+import 'package:neon_widgets/neon_widgets.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -24,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   double valueGaz=0.0;
   double valueTmp=0.0;
+  num sliderValue=0;
+  double sliderValueGaz=0;
   final DatabaseReference _databaseReference =
   FirebaseDatabase.instance.ref();
   final _advancedDrawerController = AdvancedDrawerController();
@@ -44,6 +47,21 @@ class _HomeScreenState extends State<HomeScreen> {
       });
 
     });
+    _databaseReference.child('sliderValue').onValue.listen((event) {
+      final data = event.snapshot.value as double;
+
+      setState(() {
+        sliderValue = data;
+      });
+
+    });    _databaseReference.child('sliderValueGaz').onValue.listen((event) {
+      final data = event.snapshot.value as double;
+
+      setState(() {
+        sliderValueGaz = data;
+      });
+
+    });
 
     _databaseReference.child('gaz').onValue.listen((event) {
       final data = event.snapshot.value as double;
@@ -58,6 +76,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   }
 
+
+  Widget GetGazText(){
+    if(sliderValueGaz > valueGaz){
+      return Text(
+        '${valueGaz}°C',
+        style: TextStyle(
+            fontSize: 24
+        ),
+      );
+  }else{
+      return FlickerNeonText(
+        text: '${valueGaz}%',
+        flickerTimeInMilliSeconds: 700,
+        spreadColor: cutomColor().dangerColorText,
+        blurRadius: 20,
+        textSize: 28,
+      );
+
+    }
+  }
 
 
   @override
@@ -93,6 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor:                Color(0xFFFFFFFF),
           title: const Text('Client Dashnoard'),
           leading: IconButton(
             onPressed: _handleMenuButtonPressed,
@@ -120,7 +159,8 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Card(
                 surfaceTintColor:Color(0xFFFFFFFF),
                 color: Colors.white,
-                child: InkWell(
+                child:
+                InkWell(
 
                   borderRadius: BorderRadius.circular(10),
                   onTap: () {
@@ -148,9 +188,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             Text(
                               '${valueTmp}°C',
                               style: TextStyle(
-                                  fontSize: 17
+                                  fontSize: 24
                               ),
                             ),
+
                           ],
                         ),
 
@@ -169,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
               width: double.infinity,
               padding:  EdgeInsets.all(5),
               child: Card(
-                surfaceTintColor:Color(0xFFFFFFFF),
+                surfaceTintColor: sliderValueGaz <= valueGaz ? cutomColor().dangerColorText : Colors.white ,
                 color: Colors.white,
                 child: InkWell(
 
@@ -196,12 +237,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ],
                             ),
-                            Text(
-                              '${valueGaz}°C',
-                              style: TextStyle(
-                                  fontSize: 17
-                              ),
-                            ),
+                            GetGazText()
+
+
                           ],
                         ),
 
@@ -215,6 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
+
 
 
 

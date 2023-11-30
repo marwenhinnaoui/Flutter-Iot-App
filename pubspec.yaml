@@ -51,6 +51,8 @@ dependencies:
   d_chart: ^2.6.3
   qweather_icons: ^1.6.0
   iconify_flutter: ^0.0.5
+  neon_widgets: ^2.0.0
+  flutter_neon: ^0.1.0+5
 
 dev_dependencies:
   flutter_test:

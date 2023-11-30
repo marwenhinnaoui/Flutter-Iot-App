@@ -40,6 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen>  {
     return(
     Scaffold(
       appBar: AppBar(
+        backgroundColor:                Color(0xFFFFFFFF),
         leading: new IconButton(onPressed: () => {Navigator.of(context).pop()}, icon: Icon(Icons.keyboard_arrow_left),),
 
         title: Text(

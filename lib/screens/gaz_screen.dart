@@ -14,7 +14,7 @@ class _GazScreenState extends State<GazScreen> {
   double valueGaz=0.0;
   final DatabaseReference _databaseReference =
   FirebaseDatabase.instance.ref();
-  int _currentSliderValue = 1;
+  int _currentSliderValue = 0;
   TextEditingController sliderController = TextEditingController();
 
 
@@ -56,14 +56,25 @@ class _GazScreenState extends State<GazScreen> {
       });
 
     });
+
+    _databaseReference.child('sliderValueGaz').onValue.listen((event) {
+      final data = event.snapshot.value as double;
+
+      setState(() {
+        _currentSliderValue = (data / 1001 * 1000) as int;
+        sliderController.text = _currentSliderValue.toString();
+      });
+    });
+
   }
 
 
   @override
   Widget build(BuildContext context) {
-
+    print('------------------');
     return Scaffold(
       appBar:AppBar(
+        backgroundColor:                Color(0xFFFFFFFF),
         leading: new IconButton(onPressed: () => {Navigator.of(context).pop()}, icon: Icon(Icons.keyboard_arrow_left),),
         title: Text(
           'Gas',
@@ -222,15 +233,19 @@ class _GazScreenState extends State<GazScreen> {
                   child: Column(
                     children: [
                       Slider(
-                        value: _currentSliderValue.toDouble(),
+                        value: _currentSliderValue.toDouble() ,
                         max: 100,
                         label: _currentSliderValue.round().toString(),
                         onChanged: (double value) {
                           setState(() {
+
                             _currentSliderValue = value.toInt();
                             sliderController.text = _currentSliderValue.toString();
-                            print(_currentSliderValue);
+                            _databaseReference.child('sliderValueGaz').set(
+                                _currentSliderValue / 1000 *1001   );
+
                           });
+
                         },
                       ),
                       Text('Chose chart max value: ${_currentSliderValue}', style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold),),
