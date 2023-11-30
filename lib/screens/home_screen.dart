@@ -77,17 +77,17 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
-  Widget GetGazText(){
-    if(sliderValueGaz > valueGaz){
+  Widget GetTextWidget(sliderValue, value){
+    if(sliderValue > value){
       return Text(
-        '${valueGaz}°C',
+        '${value}°C',
         style: TextStyle(
             fontSize: 24
         ),
       );
   }else{
       return FlickerNeonText(
-        text: '${valueGaz}%',
+        text: '${value}%',
         flickerTimeInMilliSeconds: 700,
         spreadColor: cutomColor().dangerColorText,
         blurRadius: 20,
@@ -157,7 +157,8 @@ class _HomeScreenState extends State<HomeScreen> {
               width: double.infinity,
               padding:  EdgeInsets.all(5),
               child: Card(
-                surfaceTintColor:Color(0xFFFFFFFF),
+
+                surfaceTintColor: sliderValue <= valueTmp ? cutomColor().dangerColorText : Colors.white ,
                 color: Colors.white,
                 child:
                 InkWell(
@@ -185,12 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ],
                             ),
-                            Text(
-                              '${valueTmp}°C',
-                              style: TextStyle(
-                                  fontSize: 24
-                              ),
-                            ),
+                            GetTextWidget(sliderValue, valueTmp)
 
                           ],
                         ),
@@ -237,7 +233,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ],
                             ),
-                            GetGazText()
+                            GetTextWidget(sliderValueGaz, valueGaz)
 
 
                           ],

@@ -57,11 +57,11 @@ class _GazScreenState extends State<GazScreen> {
 
     });
 
-    _databaseReference.child('sliderValueGaz').onValue.listen((event) {
-      final data = event.snapshot.value as double;
+    _databaseReference.child('sliderValueGazInt').onValue.listen((event) {
+      final data = event.snapshot.value as int;
 
       setState(() {
-        _currentSliderValue = (data / 1001 * 1000) as int;
+        _currentSliderValue = data;
         sliderController.text = _currentSliderValue.toString();
       });
     });
@@ -243,7 +243,8 @@ class _GazScreenState extends State<GazScreen> {
                             sliderController.text = _currentSliderValue.toString();
                             _databaseReference.child('sliderValueGaz').set(
                                 _currentSliderValue / 1000 *1001   );
-
+                            _databaseReference.child('sliderValueGazInt').set(
+                                _currentSliderValue   );
                           });
 
                         },

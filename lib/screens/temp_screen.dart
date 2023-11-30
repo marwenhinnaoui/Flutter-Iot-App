@@ -58,7 +58,7 @@ class _TempScreenState extends State<TempScreen> {
     });
 
 
-    _databaseReference.child('sliderValue').onValue.listen((event) {
+    _databaseReference.child('sliderValueInt').onValue.listen((event) {
       final data = event.snapshot.value as int;
 
       setState(() {
@@ -203,17 +203,20 @@ class _TempScreenState extends State<TempScreen> {
                   child: Column(
                     children: [
                       Slider(
-                        value: _currentSliderValue.toDouble(),
+                        value: _currentSliderValue.toDouble() ,
                         max: 100,
                         label: _currentSliderValue.round().toString(),
                         onChanged: (double value) {
                           setState(() {
+
                             _currentSliderValue = value.toInt();
                             sliderController.text = _currentSliderValue.toString();
-                            print(_currentSliderValue);
                             _databaseReference.child('sliderValue').set(
-                                _currentSliderValue);
+                                _currentSliderValue / 1000 *1001   );
+                            _databaseReference.child('sliderValueInt').set(
+                                _currentSliderValue   );
                           });
+
                         },
                       ),
                       Text('Chose chart max value: ${_currentSliderValue}', style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold),),
