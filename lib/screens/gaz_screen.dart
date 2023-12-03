@@ -20,7 +20,7 @@ class _GazScreenState extends State<GazScreen> {
 
 
   bool fan = false;
-  String fanText= 'Off';
+  String fanText= 'off';
   List<OrdinalData> ordinalList = [
 
   ];
@@ -161,11 +161,13 @@ class _GazScreenState extends State<GazScreen> {
                         setState(() {
                           fan = value;
                          if(fan){
-                           fanText = 'On';
+                           fanText = 'on';
                          } else{
-                         fanText='Off';
+                         fanText='off';
                          }
                         });
+                        _databaseReference.child('fan').set(
+                            fanText   );
                       },
                     ),
 

@@ -53,6 +53,7 @@ dependencies:
   iconify_flutter: ^0.0.5
   neon_widgets: ^2.0.0
   flutter_neon: ^0.1.0+5
+  onesignal_flutter: ^5.0.4
 
 dev_dependencies:
   flutter_test:

@@ -49,9 +49,64 @@ class _ProfileScreenState extends State<ProfileScreen>  {
       ),
       body:
       Container(
-        child: Text(
-            'Profile'
-        ),
+        child: Center(
+          child: Column(
+            children: [
+              SizedBox(height: 50,),
+              ClipOval(
+                child: Image.asset("assets/img/profile.png", width: 150,),
+              ),
+              SizedBox(height: 15,),
+
+            Card(
+              surfaceTintColor:Color(0xFFFFFFFF),
+              color:  Color(0xFFFFFFFF),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Name: No data', style: TextStyle(
+                    fontSize: 17
+                ),),
+              )
+            ),
+              SizedBox(height: 5,),
+              Card(
+                  surfaceTintColor:Color(0xFFFFFFFF),
+                  color:  Color(0xFFFFFFFF),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Name: No data', style: TextStyle(
+                        fontSize: 17
+                    ),),
+                  )
+              ),
+              SizedBox(height: 5,),
+              Card(
+                  surfaceTintColor:Color(0xFFFFFFFF),
+                  color:  Color(0xFFFFFFFF),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Email: No data', style: TextStyle(
+                        fontSize: 17
+                    ),),
+                  )
+              ),
+              SizedBox(height: 5,),
+              Card(
+                  surfaceTintColor:Color(0xFFFFFFFF),
+                  color:  Color(0xFFFFFFFF),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Phone: No data', style: TextStyle(
+                        fontSize: 17
+                    ),),
+                  )
+              ),
+              SizedBox(height: 5,),
+
+
+            ],
+          ),
+        )
       ),
     )
     );
