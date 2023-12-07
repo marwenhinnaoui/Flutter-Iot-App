@@ -54,6 +54,9 @@ dependencies:
   neon_widgets: ^2.0.0
   flutter_neon: ^0.1.0+5
   onesignal_flutter: ^5.0.4
+  web_socket_channel: ^2.4.0
+  awesome_notifications: ^0.8.2
+  flutter_local_notifications: ^16.2.0
 
 dev_dependencies:
   flutter_test:

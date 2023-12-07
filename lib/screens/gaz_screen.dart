@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,7 @@ class _GazScreenState extends State<GazScreen> {
   int _currentSliderValue = 0;
   TextEditingController sliderController = TextEditingController();
 
+  int valueFan= 0;
 
 
   bool fan = false;
@@ -63,6 +66,21 @@ class _GazScreenState extends State<GazScreen> {
       setState(() {
         _currentSliderValue = data;
         sliderController.text = _currentSliderValue.toString();
+      });
+    });
+    _databaseReference.child('fan').onValue.listen((event) {
+      final data = event.snapshot.value as Int;
+      valueFan = data as int;
+      setState(() {
+
+        if (valueFan ==1 ){
+          fan=true;
+          fanText='on';
+        }else{
+          fan = false;
+          fanText='off';
+        }
+
       });
     });
 
@@ -167,7 +185,7 @@ class _GazScreenState extends State<GazScreen> {
                          }
                         });
                         _databaseReference.child('fan').set(
-                            fanText   );
+                            valueFan   );
                       },
                     ),
 

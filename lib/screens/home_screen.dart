@@ -9,12 +9,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:iconify_flutter/icons/wi.dart';
+import 'package:projet_sem3_flutter/api.dart';
 import 'package:projet_sem3_flutter/screens/gaz_screen.dart';
 import 'package:projet_sem3_flutter/screens/profile_screen.dart';
 import 'package:projet_sem3_flutter/screens/temp_screen.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:colorful_iconify_flutter/icons/emojione.dart';
 import 'package:projet_sem3_flutter/ui/colors.dart';
+import 'package:web_socket_channel/io.dart';
 import '../widgets/snackbar.dart';
 import 'auth/auth.dart';
 import 'package:neon_widgets/neon_widgets.dart';
@@ -48,6 +50,45 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // TODO: implement initState
     super.initState();
+    final channel = IOWebSocketChannel.connect('ws://192.168.43.3:8080');
+
+
+    channel.stream.listen((data) {
+      if (data != null && valueGaz > sliderValueGaz && data =='Gaz') {
+
+        print('----------------------------------------------- ---------------${data}');
+setState(() {
+  Api.showNotification(
+      title: 'Gaz WARNING ⚠️',
+      body: 'Gaz reached limit, You must turn on fan ⚠',
+      payload: 'test'
+  );
+});
+
+
+      }else if(data != null && valueTmp > sliderValue && data =='Tmp'){
+        setState(() {
+          Api.showNotification(
+              title: 'Temperature WARNING ⚠️',
+              body: 'Temperature reached limit, You must turn on fan ⚠',
+              payload: 'test'
+          );
+        });
+      }else if(data != null && valueTmp > sliderValue && data =='Hum'){
+        setState(() {
+          Api.showNotification(
+              title: 'Humidity WARNING ⚠️',
+              body: 'Humidity reached limit, You must turn on fan ⚠',
+              payload: 'test'
+          );
+        });
+      }
+    });
+    // Api.showNotification(
+    //   title: 'test',
+    //   body: 'test',
+    //   payload: 'test'
+    // );
     OneSignal.initialize("d9b1207e-a576-4150-bbfe-ba17ac48066d");
     OneSignal.Notifications.requestPermission(true);
 
@@ -152,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
   Widget GetTextWidgetDoor(value){
-    if(value=="fermer"){
+    if(value=="fermée"){
       return Text(
         'Door is closed',
         style: TextStyle(
